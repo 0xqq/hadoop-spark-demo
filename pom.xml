@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.jy</groupId>
+    <artifactId>kafkaDemo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <properties>
+        <!-- 文件拷贝时的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译时的编码 -->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <scala.version>2.11.8</scala.version>
+        <mysql.version>6.0.2</mysql.version>
+        <logback.version>1.0.13</logback.version>
+        <slf4j.version>1.7.5</slf4j.version>
+
+        <hadoop.version>2.6.0</hadoop.version>
+        <hive.version>1.2.0</hive.version>
+        <avro.version>1.8.2</avro.version>
+        <spark.version>2.2.1</spark.version>
+        <hbase.version>1.2.0</hbase.version>
+        <zookeeper.version>3.4.5</zookeeper.version>
+        <kryo.version>4.0.2</kryo.version>
+        <jedis.version>2.9.0</jedis.version>
+        <kafka.version>1.1.0</kafka.version>
+
+        <!-- Hadoop eco cdh version -->
+        <cdh.version>5.7.0</cdh.version>
+        <hadoop-cdh.version>${hadoop.version}-cdh${cdh.version}</hadoop-cdh.version>
+        <hbase-cdh.version>${hbase.version}-cdh${cdh.version}</hbase-cdh.version>
+        <zookeeper-cdh.version>${zookeeper.version}-cdh${cdh.version}</zookeeper-cdh.version>
+        <spark-cdh.version>${spark.version}-cdh${cdh.version}</spark-cdh.version>
+        <hive-cdh.version>${hive.version}-cdh${cdh.version}</hive-cdh.version>
+
+        <!-- Hadoop eco current version -->
+        <hadoop.current.version>${hadoop-cdh.version}</hadoop.current.version>
+        <hbase.current.version>${hbase-cdh.version}</hbase.current.version>
+        <zookeeper.current.version>${zookeeper-cdh.version}</zookeeper.current.version>
+        <spark.current.version>${spark-cdh.version}</spark.current.version>
+        <hive.current.version>${hive-cdh.version}</hive.current.version>
+    </properties>
+
+    <dependencies>
+        <!--scala cache-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+
+        <!--kafka-->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <!-- Hadoop & HBase -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+
+        <!-- Spark -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.11</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- jdbc -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/scala</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <!-- ${package.environment} 是在 maven 编译的时候传入的一个参数指定用哪个文件下的配置文件 -->
+            <resource>
+                <directory>src/main/resources/${package.environment}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <args>
+                                <!--<arg>-make:transitive</arg>-->
+                                <arg>-dependencyfile</arg>
+                                <arg>${project.build.directory}/.scala_dependencies</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>reference.conf</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass></mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <!-- 默认为dev 为打包的参数，可以在打包的时候指定 如下
+        package -Pdev -Dmaven.test.skip=true
+        package -Ponline -Dmaven.test.skip=true
+        package -Ptest -Dmaven.test.skip=true
+        -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <package.environment>dev</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <package.environment>test</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>online</id>
+            <properties>
+                <package.environment>online</package.environment>
+            </properties>
+        </profile>
+    </profiles>
+</project>
