@@ -1,0 +1,25 @@
+hdfs-site.xml配置开启权限验证
+dfs.permissions=true
+
+--linux添加用户 zouzhanshun
+useradd zouzhanshun
+--为 zouzhanshun 设置密码
+passwd zouzhanshun
+--创建 zouzhanshun 用户组(可以不用创建，创建用户的时候已经创建)
+groupadd  zouzhanshun
+--将用户 zouzhanshun 加入到 zouzhanshun 组
+gpasswd -a zouzhanshun zouzhanshun
+
+linux 操作完毕
+
+hdfs系统上操作
+--新建用户目录
+hadoop fs -mkdir /user/zouzhanshun
+--修改文件的所有者为 zouzhanshun 以及所属组为 zouzhanshun
+hdfs dfs -chown -R zouzhanshun:zouzhanshun /user/zouzhanshun
+--修改权限所属组权限
+hdfs dfs -chmod g-x /user/zouzhanshun
+hdfs dfs -chmod o-x /user/zouzhanshun
+hdfs dfs -chmod g-r /user/zouzhanshun
+hdfs dfs -chmod o-r /user/zouzhanshun
+
