@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * hadoop文件的读写
+ */
+//TODO hadoop文件的读写
 public class TestDruid {
     public static void main(String args[]) throws Exception {
         String sql = "SELECT t.service_code,t.uri,t.timeout_time FROM sm_cfg_service_uri t";
