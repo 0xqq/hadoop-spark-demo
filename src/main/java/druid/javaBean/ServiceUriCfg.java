@@ -7,6 +7,8 @@ public class ServiceUriCfg implements Serializable {
     private String uri;
     private int timeout_time;
 
+    public ServiceUriCfg(){}
+
     public ServiceUriCfg(String service_code, String uri, int timeout_time) {
         this.service_code = service_code;
         this.uri = uri;

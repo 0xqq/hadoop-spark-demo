@@ -36,7 +36,7 @@
         <hadoop.version>2.6.0</hadoop.version>
         <hive.version>1.2.0</hive.version>
         <avro.version>1.8.2</avro.version>
-        <spark.version>2.2.1</spark.version>
+        <spark.version>2.3.0</spark.version>
         <hbase.version>1.2.0</hbase.version>
         <zookeeper.version>3.4.5</zookeeper.version>
         <kryo.version>4.0.2</kryo.version>
@@ -61,7 +61,14 @@
     </properties>
 
     <dependencies>
-        <!-- 数据库连接池-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+        </dependency>
+
+        <!-- 数据库连接池
+        -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -124,6 +131,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbutils</groupId>
+            <artifactId>commons-dbutils</artifactId>
+            <version>1.7</version>
         </dependency>
 
         <dependency>
