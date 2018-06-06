@@ -28,8 +28,6 @@ public class DruidUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-
         }
     }
 }

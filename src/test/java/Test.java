@@ -10,6 +10,13 @@ public class Test {
     static final String PASS = "9RqG^6#N@ltY8xRz";
 
     public static void main(String[] args) {
+
+        String str = "123456789";
+        System.out.println(str.substring(1,5).toString());
+
+
+
+
         Connection conn = null;
         Statement stmt = null;
         try {

@@ -5,7 +5,11 @@ import com.alibaba.druid.pool.DruidPooledConnection;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import druid.javaBean.ServiceUriCfg;
 import druid.util.DBPoolConnection;
+import druid.util.DruidUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -102,60 +106,31 @@ public class CaffeineCacheController {
      * 把数据库的全部缓存到本地缓存
      */
     public static void cacheAlltoLocal() {
-        String result = null;
-        DBPoolConnection dbp = DBPoolConnection.getInstance();
-        DruidPooledConnection con = null;
-        PreparedStatement ps = null;
-        try {
-            con = dbp.getConnection();
-            String service_code = "t.service_code,";
-            String uri = "t.uri,";
-            String kpi_id = " t.kpi_id,";
-            String timeout_time = " p.timeout_time";
-            String table = " sm_cfg_threshold t";
-            String inner_join = "sm_cfg_service_uri p";
-            String on = "t.service_code = p.service_code AND t.uri = p.uri";
-            String where = "t.kpi_id = 3 AND p.timeout_time != 0";
-            String sql = "SELECT " + service_code + uri + kpi_id + timeout_time + " FROM " + table + " INNER JOIN " + inner_join + " on " + on + " WHERE " + where;
-            ps = con.prepareStatement(sql);
-            System.out.println("sql: " + sql);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                String service_codeFromMysql = resultSet.getString("service_code");
-                String uriFromMysql = resultSet.getString("uri");
-                String kpi_idFromMysql = resultSet.getString("kpi_id");
-                String timeout_timeFromMysql = resultSet.getString("timeout_time");
-                System.out.println(service_codeFromMysql + " : " + uriFromMysql + " : " + kpi_idFromMysql);
-                String key = service_codeFromMysql + "!!!@@@###" + uriFromMysql + "!!!@@@###" + kpi_idFromMysql;
-                manualCache.put(key, timeout_timeFromMysql);
-                System.out.println("=====>key 【" + key + "】 : 【" + timeout_timeFromMysql + "】<=====");
-            }
+        //DBUtils在创建QueryRunner时传入dataSource对象每次在执行完之后都会自动关闭Connection连接对象~所以再也不用担心没有关闭对象而导致的问题了
+        //获取链接
+        QueryRunner runner = new QueryRunner(DruidUtils.getDatasource());
 
+        //编写sql语句
+        final String service_code = "t.service_code,";
+        final String uri = "t.uri,";
+        final String kpi_id = " t.kpi_id,";
+        final String timeout_time = " p.timeout_time";
+        final String table = " sm_cfg_threshold t";
+        final String inner_join = "sm_cfg_service_uri p";
+        final String on = "t.service_code = p.service_code AND t.uri = p.uri";
+        final String where = "t.kpi_id = 3 AND p.timeout_time != 0";
+        final String sql = "SELECT " + service_code + uri + kpi_id + timeout_time + " FROM " + table + " INNER JOIN " + inner_join + " on " + on + " WHERE " + where;
+
+        //返回查询值
+        List<ServiceUriCfg> serviceUriCfgList = null;
+        try {
+            serviceUriCfgList = runner.query(sql, new BeanListHandler<>(ServiceUriCfg.class));
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // 关闭资源
-            try {
-                if (ps != null) ps.close();
-            } catch (SQLException se2) {
-            }
-            try {
-                if (con != null) con.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            dbp = null;
-
         }
+        loadingCache.put("serviceUriCfgList", serviceUriCfgList);
+        System.out.println("==================>初始化每个url的超时时间的缓存完成：" + serviceUriCfgList);
 
-
-        //loadingCache.get(key);
-        //System.out.println("从缓存中获取了key: " + key + " value: " + loadingCache.get(key));
-        // 获取组key的值返回一个Map
-        //List<String> keys = new ArrayList<>();
-        //keys.add(key);
-        //Map<String, Object> graphs = manualCache.getAll(keys);
-        //loadingCache.getAll(keys);
     }
 
     /**
@@ -177,6 +152,14 @@ public class CaffeineCacheController {
         }
 
 
+    }
+
+
+    //方法一  接受需要查询的key 返回这些key组成list ，把list转换成表 关联
+
+    public static ArrayList<ServiceUriCfg> getListBykey(String key) {
+        Object o = loadingCache.get(key);
+        return (ArrayList<ServiceUriCfg>) o;
     }
 
 }
