@@ -22,4 +22,6 @@ hdfs dfs -chmod g-x /user/zouzhanshun
 hdfs dfs -chmod o-x /user/zouzhanshun
 hdfs dfs -chmod g-r /user/zouzhanshun
 hdfs dfs -chmod o-r /user/zouzhanshun
+--应用到该目录的子目录和文件
+hdfs dfs -chmod -R u+r /user/zouzhanshun
 

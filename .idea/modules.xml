@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/kafkaDemo.iml" filepath="$PROJECT_DIR$/kafkaDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Hadoop_Spark_Demo.iml" filepath="$PROJECT_DIR$/Hadoop_Spark_Demo.iml" />
     </modules>
   </component>
 </project>

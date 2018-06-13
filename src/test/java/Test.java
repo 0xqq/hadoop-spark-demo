@@ -9,12 +9,38 @@ public class Test {
     static final String USER = "service_monitor";
     static final String PASS = "9RqG^6#N@ltY8xRz";
 
+    //int[] x = [1,2,3,4.5];
+
+
+    public static int binarySearch(int[] data, int aim) {//以int数组为例，aim为需要查找的数
+        int start = 0;
+        int end = data.length - 1;
+        int mid = (start + end) / 2;//a
+        while (data[mid] != aim && end > start) {//如果data[mid]等于aim则死循环，所以排除
+            if (data[mid] > aim) {
+                end = mid - 1;
+            } else if (data[mid] < aim) {
+                start = mid + 1;
+            }
+            mid = (start + end) / 2;//b，注意a，b
+        }
+        return (data[mid] != aim) ? -1 : mid;//返回结果
+    }
+
+
     public static void main(String[] args) {
+        int[] arrayRefVar = {1, 2, 8, 4, 5, 6, 7};
+        int i = binarySearch(arrayRefVar, 8);
+        System.out.println("i: " + i);
+
 
         String str = "123456789";
-        System.out.println(str.substring(1,5).toString());
+        System.out.println(str.substring(1, 5).toString());
+
+        System.out.println("===================================");
 
 
+        System.out.println("===================================");
 
 
         Connection conn = null;
