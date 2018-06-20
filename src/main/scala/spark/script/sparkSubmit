@@ -1,0 +1,43 @@
+#standalone-client
+/opt/apps/spark-2.3.0-bin-2.6.0-cdh5.7.0/bin/spark-submit \
+--class SimpleApp \
+--num-executors 1 \
+--driver-memory 1G \
+--executor-memory 1G \
+--executor-cores 1 \
+--master spark://JY2TEHDP02:7077 \
+--deploy-mode client \
+hdfs://172.18.101.132:8020/user/zouzhanshun/spark-wordcount-1.0-SNAPSHOT.jar
+
+#Standalone-cluster
+/opt/apps/spark-2.3.0-bin-2.6.0-cdh5.7.0/bin/spark-submit \
+--class SimpleApp \
+--num-executors 1 \
+--driver-memory 1G \
+--executor-memory 1G \
+--executor-cores 1 \
+--master spark://JY2TEHDP02:7077 \
+--deploy-mode cluster \
+hdfs://172.18.101.132:8020/user/zouzhanshun/spark-wordcount-1.0-SNAPSHOT.jar
+
+#yarn-client
+/opt/apps/spark-2.3.0-bin-2.6.0-cdh5.7.0/bin/spark-submit \
+--class SimpleApp \
+--num-executors 1 \
+--driver-memory 1G \
+--executor-memory 1G \
+--executor-cores 1 \
+--master yarn \
+--deploy-mode client \
+hdfs://172.18.101.132:8020/user/zouzhanshun/spark-wordcount-1.0-SNAPSHOT.jar
+
+#yarn-cluster
+/opt/apps/spark-2.3.0-bin-2.6.0-cdh5.7.0/bin/spark-submit \
+--class SimpleApp \
+--num-executors 1 \
+--driver-memory 1G \
+--executor-memory 1G \
+--executor-cores 1 \
+--master yarn \
+--deploy-mode cluster \
+hdfs://172.18.101.132:8020/user/zouzhanshun/spark-wordcount-1.0-SNAPSHOT.jar

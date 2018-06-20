@@ -4,7 +4,7 @@ object HelloWord {
 
     def main(args: Array[String]): Unit = {
 
-        //println("hello "+args(0))
+        println("hello "+args(0))
 
         // yield
 

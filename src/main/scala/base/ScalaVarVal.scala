@@ -22,14 +22,20 @@ object ScalaVarVal {
 
     val name: String = "lisi"
     var age = 18
+    val table = "student"
+    val where = "age > 18"
 
     println("name = " + name, "age = " + age)
+
+    println(s"sql:" + s"select ${name} from ${table} where ${where}")
+    printf("sql:" + "select %s from %s where %s",name,table,where)
+    println("\n")
 
     val sql = s"select * from xx where name = ? and province = ?"
     //ps.setInt(1, "')
 
     println(f"姓名：$name%s  年龄：$age") // 该行输出有换行
-    printf("%s 学费 %4.2f, 网址是%s", name, 1234.146516, "xx") // 该行输出没有换行
+    printf("%s 学费 %4.2f, 网址是%s", name, 12345.146516, "xx") // 该行输出没有换行
 
 
     //

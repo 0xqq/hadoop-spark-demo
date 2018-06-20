@@ -32,12 +32,12 @@ object CallByValueAndName {
     def main(args: Array[String]): Unit = {
         // 传名（函数）调用
         // 将shuQian方法名称传递到方法的内部执行
-        printByName(shuQian)
+        //printByName(shuQian)
 
         // 传值调用 printByValue 参数为一个具体的数值
         // 1. 计算shuQian的返回值 = 45
         // 2. 将45作为参数传入printByValue
-        // printByValue(shuQian)
+         printByValue(shuQian)
     }
 
 }

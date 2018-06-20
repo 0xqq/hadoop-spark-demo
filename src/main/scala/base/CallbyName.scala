@@ -22,7 +22,7 @@ object CallbyName extends App{
     }
 
     // 调用方式一
-    //delayed(currentTime() _)
+    delayed(currentTime())
 
     println("------------华丽丽的分割线----------")
 
