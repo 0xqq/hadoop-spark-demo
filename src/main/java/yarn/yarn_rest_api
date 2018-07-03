@@ -1,0 +1,102 @@
+application_1530073456013_0071
+
+10.50.192.51 HADOOP01
+10.50.192.52 HADOOP02
+10.50.192.53 HADOOP03
+10.50.192.54 HADOOP04
+10.50.192.55 HADOOP05
+10.50.192.56 HADOOP06
+10.50.192.57 HADOOP07
+10.50.192.58 HADOOP08
+10.50.192.59 HADOOP09
+10.50.192.67 JY1HDKM01
+10.50.192.68 JY1HDKM02
+10.50.192.69 JY1HDKM03
+
+## 集群信息
+## get
+http://hadoop01:8088/ws/v1/cluster/info
+{
+    "clusterInfo": {
+        "id": 1530073456013,
+        "startedOn": 1530073456013,
+        "state": "STARTED",
+        "haState": "ACTIVE",
+        "rmStateStoreName": "org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore",
+        "resourceManagerVersion": "2.6.0-cdh5.9.3",
+        "resourceManagerBuildVersion": "2.6.0-cdh5.9.3 from a67f75f2b36829f70640d005d22ce19ae77da7e9 by jenkins source checksum d33f9e27da41d6f0c93addfeb7f8cd5",
+        "resourceManagerVersionBuiltOn": "2017-06-27T23:25Z",
+        "hadoopVersion": "2.6.0-cdh5.9.3",
+        "hadoopBuildVersion": "2.6.0-cdh5.9.3 from a67f75f2b36829f70640d005d22ce19ae77da7e9 by jenkins source checksum 23e3b37017a84c5f4bd51bda7373714e",
+        "hadoopVersionBuiltOn": "2017-06-27T23:18Z",
+        "haZooKeeperConnectionState": "CONNECTED"
+    }
+}
+
+字段说明
+id=集群id
+startedOn=集群开始的时间(以ms为单位)
+state=ResourceManager状态-有效值为:没有初始化、初始化中、开始、停止
+haState=ResourceManager HA状态-有效值为:初始化、活动、备用、停止
+resourceManagerVersion=ResourceManager的版本
+resourceManagerBuildVersion=ResourceManager构建字符串包含构建版本、用户和校验
+resourceManagerVersionBuiltOn=创建ResourceManager的时间(以ms为单位)
+hadoopVersion=hadoop的版本
+hadoopBuildVersion=Hadoop公共构建版本、用户和校验
+hadoopVersionBuiltOn=构建hadoop common时的时间戳(从ms开始)
+haZooKeeperConnectionState=zk连接状态
+
+## 集群资源使用情况
+## get
+http://hadoop01:8088/ws/v1/cluster/metrics
+{
+    "clusterMetrics": {
+        "appsSubmitted": 111,
+        "appsCompleted": 108,
+        "appsPending": 0,
+        "appsRunning": 2,
+        "appsFailed": 0,
+        "appsKilled": 1,
+        "reservedMB": 0,
+        "availableMB": 909312,
+        "allocatedMB": 8192,
+        "reservedVirtualCores": 0,
+        "availableVirtualCores": 162,
+        "allocatedVirtualCores": 6,
+        "containersAllocated": 3,
+        "containersReserved": 0,
+        "containersPending": 0,
+        "totalMB": 917504,
+        "totalVirtualCores": 168,
+        "totalNodes": 7,
+        "lostNodes": 0,
+        "unhealthyNodes": 0,
+        "decommissioningNodes": 0,
+        "decommissionedNodes": 0,
+        "rebootedNodes": 0,
+        "activeNodes": 7
+    }
+}
+appsSubmitted=应用程序提交的数量
+appsCompleted=应用程序完成的数量
+appsPending=应用程序待定的数量
+appsRunning=运行的应用程序的数量
+appsFailed=应用程序失败的数量
+appsKilled=应用程序被杀的数量
+reservedMB=保留的内存数
+availableMB=可用内存数
+allocatedMB=已分配内存数
+totalMB=总内存数
+reservedVirtualCores=保留虚拟核处理器数
+availableVirtualCores=可用虚拟核处理器数
+allocatedVirtualCores=分配虚拟核处理器量
+totalVirtualCores=虚拟核总数
+containersAllocated=已分配container数
+containersReserved=保留container数
+containersPending=待定container数
+totalNodes=node节点总数
+activeNodes=活动节点的数
+lostNodes=失连接节点的数
+unhealthyNodes=不健康的节点的数
+decommissionedNodes=退役的节点数
+rebootedNodes=重新启动节点的数目

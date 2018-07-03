@@ -1,0 +1,7 @@
+##在当前目录下查找所有包含http://repo.typesafe.com/typesafe/ivy-releases关键的文件
+grep -r 'http://repo.typesafe.com/typesafe/ivy-releases' * | head -10
+grep -r 'https://repo1.maven.org' * | head -10
+
+
+vim
+:r [filename]	在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面
