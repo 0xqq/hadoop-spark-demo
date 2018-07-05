@@ -21,6 +21,7 @@ object WordCount {
     //设置本地的hadoop环境变量
     if ("Windows 7".equals(osName)) {
       System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.0-cdh5.9.0")
+      System.setProperty("HADOOP_USER_NAME", "root")
       conf.setMaster("local[*]")
     }
 
@@ -51,7 +52,7 @@ object WordCount {
       (word._1, word._2)
     })
     //把结果输出到hdfs目录
-    wordCountResult.saveAsTextFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata-result")
+    //wordCountResult.saveAsTextFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata-result")
     //并打印到屏幕上
     wordCountResult.foreach(println(_))
   }

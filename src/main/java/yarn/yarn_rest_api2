@@ -1,0 +1,118 @@
+hadoop-yarn2.6.5 YARN REST APIs
+
+一、ResourceManager REST API's.
+application_1530073456013_29070
+
+##集群信息
+http://hadoop01:8088/ws/v1/cluster/info
+##总体的指标
+http://hadoop01:8088/ws/v1/cluster/metrics
+##调度信息
+http://hadoop01:8088/ws/v1/cluster/scheduler
+##Application List
+http://hadoop01:8088/ws/v1/cluster/apps\
+##每种状态程序运行的数量
+http://hadoop01:8088/ws/v1/cluster/appstatistics
+##指定两个参数，运行状态和类型
+http://hadoop01:8088/ws/v1/cluster/appstatistics?states=accepted,running,finished&applicationTypes=mapreduce
+##查看指定任务的详细信息：
+http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070
+##程序使用资源的集合
+http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070/appattempts
+##集群节点的集合
+http://hadoop01:8088/ws/v1/cluster/nodes
+##单个节点的详情
+http://hadoop01:8088/ws/v1/cluster/nodes/HADOOP05:8041
+## POST请求 请求一个新的ID来提交job
+http://hadoop01:8088/ws/v1/cluster/apps/new-application
+##提交一个job，请求体如下
+http://hadoop01:8088/ws/v1/cluster/apps
+
+================================================================================
+ POST http://<rm http address:port>/ws/v1/cluster/apps
+  Accept: application/json
+  Content-Type: application/json
+  {
+    "application-id":"application_1404203615263_0001",
+    "application-name":"test",
+    "am-container-spec":
+    {
+      "local-resources":
+      {
+        "entry":
+        [
+          {
+            "key":"AppMaster.jar",
+            "value":
+            {
+              "resource":"hdfs://hdfs-namenode:9000/user/testuser/DistributedShell/demo-app/AppMaster.jar",
+              "type":"FILE",
+              "visibility":"APPLICATION",
+              "size": 43004,
+              "timestamp": 1405452071209
+            }
+          }
+        ]
+      },
+      "commands":
+      {
+        "command":"{{JAVA_HOME}}/bin/java -Xmx10m org.apache.hadoop.yarn.applications.distributedshell.ApplicationMaster --container_memory 10 --container_vcores 1 --num_containers 1 --priority 0 1><LOG_DIR>/AppMaster.stdout 2><LOG_DIR>/AppMaster.stderr"
+      },
+      "environment":
+      {
+        "entry":
+        [
+          {
+            "key": "DISTRIBUTEDSHELLSCRIPTTIMESTAMP",
+            "value": "1405459400754"
+          },
+          {
+            "key": "CLASSPATH",
+            "value": "{{CLASSPATH}}<CPS>./*<CPS>{{HADOOP_CONF_DIR}}<CPS>{{HADOOP_COMMON_HOME}}/share/hadoop/common/*<CPS>{{HADOOP_COMMON_HOME}}/share/hadoop/common/lib/*<CPS>{{HADOOP_HDFS_HOME}}/share/hadoop/hdfs/*<CPS>{{HADOOP_HDFS_HOME}}/share/hadoop/hdfs/lib/*<CPS>{{HADOOP_YARN_HOME}}/share/hadoop/yarn/*<CPS>{{HADOOP_YARN_HOME}}/share/hadoop/yarn/lib/*<CPS>./log4j.properties"
+          },
+          {
+            "key": "DISTRIBUTEDSHELLSCRIPTLEN",
+            "value": "6"
+          },
+          {
+            "key": "DISTRIBUTEDSHELLSCRIPTLOCATION",
+            "value": "hdfs://hdfs-namenode:9000/user/testuser/demo-app/shellCommands"
+          }
+        ]
+      }
+    },
+    "unmanaged-AM":false,
+    "max-app-attempts":2,
+    "resource":
+    {
+      "memory":1024,
+      "vCores":1
+    },
+    "application-type":"YARN",
+    "keep-containers-across-application-attempts":false
+  }
+===============================================================================
+##单个程序的状态
+http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070/state
+##查看指定队列的所有任务：
+http://hadoop01:8088/ws/v1/cluster/apps?queue=root
+##杀死任务：
+http://jy2tehdp01:8088/ws/v1/cluster/apps/application_1530674573213_0655/state
+Response Body:
+{
+  "state":"KILLED"
+}
+
+
+
+NodeManager Information API
+##节点信息
+http://HADOOP05:8042/ws/v1/node
+http://HADOOP05:8042/ws/v1/node/info
+##container信息
+http://HADOOP05:8042/ws/v1/node/apps
+http://HADOOP05:8042/ws/v1/node/apps/application_1530073456013_29070
+http://HADOOP05:8042/ws/v1/node/containers
+
+
+

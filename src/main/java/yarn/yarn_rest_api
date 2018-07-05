@@ -1,3 +1,476 @@
+hadoop-yarn2.6.5 YARN REST APIs
+
+一、调用入门
+#1# 单个资源的请求
+## GET
+http://hadoop01:8088/ws/v1/cluster/app/application_1530073456013_0071
+{
+  app":
+  {
+    "id":"application_1324057493980_0001",
+    "user":"user1",
+    "name":"",
+    "queue":"default",
+    "state":"ACCEPTED",
+    "finalStatus":"UNDEFINED",
+    "progress":0,
+    "trackingUI":"UNASSIGNED",
+    "diagnostics":"",
+    "clusterId":1324057493980,
+    "startedTime":1324057495921,
+    "finishedTime":0,
+    "elapsedTime":2063,
+    "amContainerLogs":"http:\/\/amNM:2\/node\/containerlogs\/container_1324057493980_0001_01_000001",
+    "amHostHttpAddress":"amNM:2"
+  }
+}
+## 如果请求一个不存在资源
+## GET
+http://hadoop01:8088/ws/v1/cluster/app/application_1530073456013_xx
+{
+   "RemoteException" : {
+      "javaClassName" : "org.apache.hadoop.yarn.webapp.NotFoundException",
+      "exception" : "NotFoundException",
+      "message" : "java.lang.Exception: app with id: application_1324057493980_xx not found"
+   }
+}
+
+您可以使用任意数量的方法/语言来使用web服务REST API。这个示例使用curl命令行接口来执行其余的GET调用。
+在本例中，用户使用如下命令将MapReduce应用程序提交给ResourceManager:
+
+#2# 提交一个mr应用
+hadoop jar hadoop-mapreduce-test.jar sleep -Dmapred.job.queue.name=a1 -m 1 -r 1 -rt 1200000 -mt 20
+## 获取job的ID，用于请求
+curl --compressed -H "Accept: application/json" -X GET "http://host.domain.com:8088/ws/v1/cluster/apps/application_1326821518301_0010"
+{
+   "app" : {
+      "finishedTime" : 0,
+      "amContainerLogs" : "http://host.domain.com:8042/node/containerlogs/container_1326821518301_0010_01_000001",
+      "trackingUI" : "ApplicationMaster",
+      "state" : "RUNNING",
+      "user" : "user1",
+      "id" : "application_1326821518301_0010",
+      "clusterId" : 1326821518301,
+      "finalStatus" : "UNDEFINED",
+      "amHostHttpAddress" : "host.domain.com:8042",
+      "progress" : 82.44703,
+      "name" : "Sleep job",
+      "startedTime" : 1326860715335,
+      "elapsedTime" : 31814,
+      "diagnostics" : "",
+      "trackingUrl" : "http://host.domain.com:8088/proxy/application_1326821518301_0010/",
+      "queue" : "a1"
+   }
+}
+#3# 还可以查看更多细节
+curl --compressed -H "Accept: application/json" -X GET "http://host.domain.com:8088/proxy/application_1326821518301_0010/ws/v1/mapreduce/jobs"
+{
+   "jobs" : {
+      "job" : [
+         {
+            "runningReduceAttempts" : 1,
+            "reduceProgress" : 72.104515,
+            "failedReduceAttempts" : 0,
+            "newMapAttempts" : 0,
+            "mapsRunning" : 0,
+            "state" : "RUNNING",
+            "successfulReduceAttempts" : 0,
+            "reducesRunning" : 1,
+            "acls" : [
+               {
+                  "value" : " ",
+                  "name" : "mapreduce.job.acl-modify-job"
+               },
+               {
+                  "value" : " ",
+                  "name" : "mapreduce.job.acl-view-job"
+               }
+            ],
+            "reducesPending" : 0,
+            "user" : "user1",
+            "reducesTotal" : 1,
+            "mapsCompleted" : 1,
+            "startTime" : 1326860720902,
+            "id" : "job_1326821518301_10_10",
+            "successfulMapAttempts" : 1,
+            "runningMapAttempts" : 0,
+            "newReduceAttempts" : 0,
+            "name" : "Sleep job",
+            "mapsPending" : 0,
+            "elapsedTime" : 64432,
+            "reducesCompleted" : 0,
+            "mapProgress" : 100,
+            "diagnostics" : "",
+            "failedMapAttempts" : 0,
+            "killedReduceAttempts" : 0,
+            "mapsTotal" : 1,
+            "uberized" : false,
+            "killedMapAttempts" : 0,
+            "finishTime" : 0
+         }
+      ]
+   }
+}
+
+## map任务已经完成，但是reduce任务仍然在运行。用户希望获取reduce任务task_13268215301_10_10_r_0的任务尝试信息
+ curl --compressed -H "Accept: application/json" -X GET "http://host.domain.com:8088/proxy/application_1326821518301_0010/ws/v1/mapreduce/jobs/job_1326821518301_10_10/tasks"
+{
+   "taskAttempts" : {
+      "taskAttempt" : [
+         {
+            "elapsedMergeTime" : 158,
+            "shuffleFinishTime" : 1326860735378,
+            "assignedContainerId" : "container_1326821518301_0010_01_000003",
+            "progress" : 72.104515,
+            "elapsedTime" : 0,
+            "state" : "RUNNING",
+            "elapsedShuffleTime" : 2394,
+            "mergeFinishTime" : 1326860735536,
+            "rack" : "/10.10.10.0",
+            "elapsedReduceTime" : 0,
+            "nodeHttpAddress" : "host.domain.com:8042",
+            "type" : "REDUCE",
+            "startTime" : 1326860732984,
+            "id" : "attempt_1326821518301_10_10_r_0_0",
+            "finishTime" : 0
+         }
+      ]
+   }
+}
+
+## reduce尝试仍在运行，用户希望看到该尝试的当前计数器值:
+curl --compressed -H "Accept: application/json"  -X GET "http://host.domain.com:8088/proxy/application_1326821518301_0010/ws/v1/mapreduce/jobs/job_1326821518301_10_10/tasks/task_1326821518301_10_10_r_0/attempts/attempt_1326821518301_10_10_r_0_0/counters"
+{
+   "JobTaskAttemptCounters" : {
+      "taskAttemptCounterGroup" : [
+         {
+            "counterGroupName" : "org.apache.hadoop.mapreduce.FileSystemCounter",
+            "counter" : [
+               {
+                  "value" : 4216,
+                  "name" : "FILE_BYTES_READ"
+               },
+               {
+                  "value" : 77151,
+                  "name" : "FILE_BYTES_WRITTEN"
+               },
+               {
+                  "value" : 0,
+                  "name" : "FILE_READ_OPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "FILE_LARGE_READ_OPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "FILE_WRITE_OPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "HDFS_BYTES_READ"
+               },
+               {
+                  "value" : 0,
+                  "name" : "HDFS_BYTES_WRITTEN"
+               },
+               {
+                  "value" : 0,
+                  "name" : "HDFS_READ_OPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "HDFS_LARGE_READ_OPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "HDFS_WRITE_OPS"
+               }
+            ]
+         },
+         {
+            "counterGroupName" : "org.apache.hadoop.mapreduce.TaskCounter",
+            "counter" : [
+               {
+                  "value" : 0,
+                  "name" : "COMBINE_INPUT_RECORDS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "COMBINE_OUTPUT_RECORDS"
+               },
+               {
+                  "value" : 1767,
+                  "name" : "REDUCE_INPUT_GROUPS"
+               },
+               {
+                  "value" : 25104,
+                  "name" : "REDUCE_SHUFFLE_BYTES"
+               },
+               {
+                  "value" : 1767,
+                  "name" : "REDUCE_INPUT_RECORDS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "REDUCE_OUTPUT_RECORDS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "SPILLED_RECORDS"
+               },
+               {
+                  "value" : 1,
+                  "name" : "SHUFFLED_MAPS"
+               },
+               {
+                  "value" : 0,
+                  "name" : "FAILED_SHUFFLE"
+               },
+               {
+                  "value" : 1,
+                  "name" : "MERGED_MAP_OUTPUTS"
+               },
+               {
+                  "value" : 50,
+                  "name" : "GC_TIME_MILLIS"
+               },
+               {
+                  "value" : 1580,
+                  "name" : "CPU_MILLISECONDS"
+               },
+               {
+                  "value" : 141320192,
+                  "name" : "PHYSICAL_MEMORY_BYTES"
+               },
+              {
+                  "value" : 1118552064,
+                  "name" : "VIRTUAL_MEMORY_BYTES"
+               },
+               {
+                  "value" : 73728000,
+                  "name" : "COMMITTED_HEAP_BYTES"
+               }
+            ]
+         },
+         {
+            "counterGroupName" : "Shuffle Errors",
+            "counter" : [
+               {
+                  "value" : 0,
+                  "name" : "BAD_ID"
+               },
+               {
+                  "value" : 0,
+                  "name" : "CONNECTION"
+               },
+               {
+                  "value" : 0,
+                  "name" : "IO_ERROR"
+               },
+               {
+                  "value" : 0,
+                  "name" : "WRONG_LENGTH"
+               },
+               {
+                  "value" : 0,
+                  "name" : "WRONG_MAP"
+               },
+               {
+                  "value" : 0,
+                  "name" : "WRONG_REDUCE"
+               }
+            ]
+         },
+         {
+            "counterGroupName" : "org.apache.hadoop.mapreduce.lib.output.FileOutputFormatCounter",
+            "counter" : [
+              {
+                  "value" : 0,
+                  "name" : "BYTES_WRITTEN"
+               }
+            ]
+         }
+      ],
+      "id" : "attempt_1326821518301_10_10_r_0_0"
+   }
+}
+
+## 作业完成，用户希望从历史服务器获取此作业的最终作业信息。
+curl --compressed -X GET "http://host.domain.com:19888/ws/v1/history/mapreduce/jobs/job_1326821518301_10_10"
+{
+   "job" : {
+      "avgReduceTime" : 1250784,
+      "failedReduceAttempts" : 0,
+      "state" : "SUCCEEDED",
+      "successfulReduceAttempts" : 1,
+      "acls" : [
+         {
+            "value" : " ",
+            "name" : "mapreduce.job.acl-modify-job"
+         },
+         {
+            "value" : " ",
+            "name" : "mapreduce.job.acl-view-job"
+         }
+      ],
+      "user" : "user1",
+      "reducesTotal" : 1,
+      "mapsCompleted" : 1,
+      "startTime" : 1326860720902,
+      "id" : "job_1326821518301_10_10",
+      "avgMapTime" : 5059,
+      "successfulMapAttempts" : 1,
+      "name" : "Sleep job",
+      "avgShuffleTime" : 2394,
+      "reducesCompleted" : 1,
+      "diagnostics" : "",
+      "failedMapAttempts" : 0,
+      "avgMergeTime" : 2552,
+      "killedReduceAttempts" : 0,
+      "mapsTotal" : 1,
+      "queue" : "a1",
+      "uberized" : false,
+      "killedMapAttempts" : 0,
+      "finishTime" : 1326861986164
+   }
+}
+
+## 用户还可以从ResourceManager获取最终的应用程序信息。
+
+{
+   "app" : {
+      "finishedTime" : 1326861991282,
+      "amContainerLogs" : "http://host.domain.com:8042/node/containerlogs/container_1326821518301_0010_01_000001",
+      "trackingUI" : "History",
+      "state" : "FINISHED",
+      "user" : "user1",
+      "id" : "application_1326821518301_0010",
+      "clusterId" : 1326821518301,
+      "finalStatus" : "SUCCEEDED",
+      "amHostHttpAddress" : "host.domain.com:8042",
+      "progress" : 100,
+      "name" : "Sleep job",
+      "startedTime" : 1326860715335,
+      "elapsedTime" : 1275947,
+      "diagnostics" : "",
+      "trackingUrl" : "http://host.domain.com:8088/proxy/application_1326821518301_0010/jobhistory/job/job_1326821518301_10_10",
+      "queue" : "a1"
+   }
+}
+
+================================================
+#2# application_1530073456013_29011
+    application_1530073456013_29011
+    application_1527081213538_129912
+http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29011
+{
+    "app": {
+        "id": "application_1530073456013_29011",
+        "user": "hive",
+        "name": "insert INTO table TWX...2.data_dt='20180626'(Stage-6)",
+        "queue": "root.users.admin",
+        "state": "RUNNING",
+        "finalStatus": "UNDEFINED",
+        "progress": 61.795956,
+        "trackingUI": "ApplicationMaster",
+        "trackingUrl": "http://HADOOP01:8088/proxy/application_1530073456013_29011/",
+        "diagnostics": "",
+        "clusterId": 1530073456013,
+        "applicationType": "MAPREDUCE",
+        "applicationTags": "",
+        "startedTime": 1530686181444,
+        "finishedTime": 0,
+        "elapsedTime": 578582,
+        "amContainerLogs": "http://HADOOP08:8042/node/containerlogs/container_e61_1530073456013_29011_01_000001/hive",
+        "amHostHttpAddress": "HADOOP08:8042",
+        "allocatedMB": 10240,
+        "allocatedVCores": 6,
+        "runningContainers": 3,
+        "memorySeconds": 9095004,
+        "vcoreSeconds": 5015,
+        "preemptedResourceMB": 0,
+        "preemptedResourceVCores": 0,
+        "numNonAMContainerPreempted": 0,
+        "numAMContainerPreempted": 0,
+        "logAggregationStatus": "NOT_START"
+    }
+}
+
+
+
+##application_1530073456013_29011
+
+
+http://hadoop01:8088/proxy/application_1530073456013_29011/ws/v1/mapreduce/jobs
+{
+    "jobs": {
+        "job": [
+            {
+                "startTime": 1530686187412,
+                "finishTime": 0,
+                "elapsedTime": 1239721,
+                "id": "job_1530073456013_29011",
+                "name": "insert INTO table TWX...2.data_dt='20180626'(Stage-6)",
+                "user": "hive",
+                "state": "RUNNING",
+                "mapsTotal": 5,
+                "mapsCompleted": 3,
+                "reducesTotal": 0,
+                "reducesCompleted": 0,
+                "mapProgress": 83.28674,
+                "reduceProgress": 0,
+                "mapsPending": 0,
+                "mapsRunning": 2,
+                "reducesPending": 0,
+                "reducesRunning": 0,
+                "uberized": false,
+                "diagnostics": "",
+                "newReduceAttempts": 0,
+                "runningReduceAttempts": 0,
+                "failedReduceAttempts": 0,
+                "killedReduceAttempts": 0,
+                "successfulReduceAttempts": 0,
+                "newMapAttempts": 0,
+                "runningMapAttempts": 2,
+                "failedMapAttempts": 0,
+                "killedMapAttempts": 0,
+                "successfulMapAttempts": 3
+            }
+        ]
+    }
+}
+
+
+http://host.domain.com:8088/proxy/application_1530073456013_29011/ws/v1/mapreduce/jobs/job_1326821518301_10_10/tasks"
+
+
+application_1527081213538_129912
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 application_1530073456013_0071
 
 10.50.192.51 HADOOP01
