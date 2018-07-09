@@ -1,4 +1,4 @@
-package spark.sql
+package spark.hive
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
