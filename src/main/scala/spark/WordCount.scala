@@ -1,5 +1,7 @@
 package spark
 
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
@@ -19,8 +21,8 @@ object WordCount {
     val osName = props.getProperty("os.name");
     //设置本地的hadoop环境变量
     if ("Windows 7".equals(osName)) {
-      System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.0-cdh5.9.0")
-      System.setProperty("HADOOP_USER_NAME", "root")
+      System.setProperty("HADOOP.HOME.DIR", "D:\\hadoop-2.6.0-cdh5.9.0")
+      System.setProperty("HADOOP_USER_NAME", "dell")
       conf.setMaster("local[*]")
     }
 
@@ -50,8 +52,14 @@ object WordCount {
     }).sortByKey(false).map(word => {
       (word._1, word._2)
     })
+    //如果存在就删除 把core-site.xml hadoop-env.sh hdfs-site.xml ssl-client.xml 四个配置文件放到resources目录下
+    val hdfs: FileSystem = FileSystem.get(new Configuration)
+    val path = new Path("/user/zouzhanshun/spark-wordcount-testdata-result")
+    if (hdfs.exists(path)) {
+      hdfs.delete(path, true)
+    }
     //把结果输出到hdfs目录
-    wordCountResult.saveAsTextFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata-result")
+    wordCountResult.saveAsTextFile("/user/zouzhanshun/spark-wordcount-testdata-result")
     //并打印到屏幕上
     wordCountResult.foreach(println(_))
   }
