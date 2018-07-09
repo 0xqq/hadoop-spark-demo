@@ -96,23 +96,23 @@ http://hadoop01:8088/ws/v1/cluster/apps
 http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070/state
 ##查看指定队列的所有任务：
 http://hadoop01:8088/ws/v1/cluster/apps?queue=root
-##杀死任务：
-http://jy2tehdp01:8088/ws/v1/cluster/apps/application_1530674573213_0655/state
+## put 杀死任务：
+http://jy2tehdp01:8088/ws/v1/cluster/apps/application_1530674573213_0681/state
+http://jy2tehdp01:8088/ws/v1/cluster/apps/application_1530674573213_0681/state
 Response Body:
 {
   "state":"KILLED"
 }
 
-
-
 NodeManager Information API
 ##节点信息
-http://HADOOP05:8042/ws/v1/node
-http://HADOOP05:8042/ws/v1/node/info
+http://jy2tehdp05/:8042/ws/v1/node
+http://jy2tehdp05:8042/ws/v1/node/info
 ##container信息
-http://HADOOP05:8042/ws/v1/node/apps
-http://HADOOP05:8042/ws/v1/node/apps/application_1530073456013_29070
-http://HADOOP05:8042/ws/v1/node/containers
+http://jy2tehdp05:8042/ws/v1/node/apps
+http://jy2tehdp05:8042/ws/v1/node/apps/application_1530674573213_0681
+http://jy2tehdp05:8042/ws/v1/node/containers
+http://jy2tehdp05:8042/ws/v1/node/containers/container_e06_1530674573213_0681_01_000001
 
 
 

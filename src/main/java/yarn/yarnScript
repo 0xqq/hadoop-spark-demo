@@ -1,0 +1,2 @@
+##查看yarn 某个job的日志
+yarn logs -applicationId application_1530674573213_0689 | more

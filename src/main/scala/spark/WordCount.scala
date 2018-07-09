@@ -17,7 +17,6 @@ object WordCount {
     val props = System.getProperties();
     //操作系统名称
     val osName = props.getProperty("os.name");
-    System.setProperty("user.name", "dell")
     //设置本地的hadoop环境变量
     if ("Windows 7".equals(osName)) {
       System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.0-cdh5.9.0")
@@ -38,7 +37,7 @@ object WordCount {
       </property>
      */
     // 本地运行必须放入resources目录下应用会自动加载core-site.xml
-    val text = sc.textFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata.txt")
+    val text = sc.textFile("/user/zouzhanshun/spark-wordcount-testdata.txt")
     //按照空格切分并压平
     val words = text.flatMap(_.split(" "))
     //把数据由 key => (key,1)映射为 (key,value)
@@ -52,7 +51,7 @@ object WordCount {
       (word._1, word._2)
     })
     //把结果输出到hdfs目录
-    //wordCountResult.saveAsTextFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata-result")
+    wordCountResult.saveAsTextFile("hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-testdata-result")
     //并打印到屏幕上
     wordCountResult.foreach(println(_))
   }
