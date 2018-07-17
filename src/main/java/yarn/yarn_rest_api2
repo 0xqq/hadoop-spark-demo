@@ -10,7 +10,37 @@ http://hadoop01:8088/ws/v1/cluster/metrics
 ##调度信息
 http://hadoop01:8088/ws/v1/cluster/scheduler
 ##Application List
-http://hadoop01:8088/ws/v1/cluster/apps\
+http://hadoop01:8088/ws/v1/cluster/apps
+====================================##Application List====================================
+"id": "application_1530674573213_0012",                             //Application ID
+"user": "hive",                                                     //用户名
+"name": "insert into tmp_exter...1','nan','nan','nan'(Stage-1)",    //任务名称
+"queue": "root.users.admin",                                        //请求队列
+"state": "FINISHED",                                                //任务状态
+"finalStatus": "SUCCEEDED",                                         //最终状态
+"progress": 100,                                                    //任务进度
+"trackingUI": "History",                                            //追踪UI
+"trackingUrl": "http://JY2TEHDP01:8088/proxy/application_1530674573213_0012/jobhistory/job/job_1530674573213_0012",//追踪RUL
+"diagnostics": "",                                                  //详情信息
+"clusterId": 1530674573213,                                         //Cluster ID
+"applicationType": "MAPREDUCE",                                     //任务类型
+"applicationTags": "",                                              //程序标签
+"startedTime": 1530686199839,                                       //开始时间
+"finishedTime": 1530686217926,                                      //完成时间
+"elapsedTime": 18087,                                               //运行时间
+"amContainerLogs": "http://JY2TEHDP06:8042/node/containerlogs/container_e06_1530674573213_0012_01_000001/hive",//Container日志
+"amHostHttpAddress": "JY2TEHDP06:8042",                             //主节点
+"allocatedMB": -1,                                                  //可用内存
+"allocatedVCores": -1,                                              //分配虚拟核数
+"runningContainers": -1,                                            //容器数量
+"memorySeconds": 42210,                                             //已分配内存
+"vcoreSeconds": 32,                                                 //CPU资源数
+"preemptedResourceMB": 0,                                           //使用内存
+"preemptedResourceVCores": 0,                                       //使用核数
+"numNonAMContainerPreempted": 0,                                    //预占容器数
+"numAMContainerPreempted": 0,                                       //抢占容器数
+"logAggregationStatus": "SUCCEEDED"                                 //聚合状态
+====================================##Application List====================================
 ##每种状态程序运行的数量
 http://hadoop01:8088/ws/v1/cluster/appstatistics
 ##指定两个参数，运行状态和类型
@@ -19,6 +49,22 @@ http://hadoop01:8088/ws/v1/cluster/appstatistics?states=accepted,running,finishe
 http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070
 ##程序使用资源的集合
 http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070/appattempts
+====================================##程序使用资源的集合====================================
+{
+    "appAttempts": {
+        "appAttempt": [
+            {
+                "id": 1,
+                "startTime": 1530696176949,
+                "containerId": "container_e61_1530073456013_29070_01_000001",
+                "nodeHttpAddress": "HADOOP09:8042",
+                "nodeId": "HADOOP09:8041",
+                "logsLink": "//HADOOP09:8042/node/containerlogs/container_e61_1530073456013_29070_01_000001/root"
+            }
+        ]
+    }
+}
+====================================##程序使用资源的集合====================================
 ##集群节点的集合
 http://hadoop01:8088/ws/v1/cluster/nodes
 ##单个节点的详情
@@ -42,10 +88,10 @@ http://hadoop01:8088/ws/v1/cluster/apps
         "entry":
         [
           {
-            "key":"AppMaster.jar",
+            "key":"spark-wordcount-1.0-SNAPSHOT.jar",
             "value":
             {
-              "resource":"hdfs://hdfs-namenode:9000/user/testuser/DistributedShell/demo-app/AppMaster.jar",
+              "resource":"hdfs://nameservice1:8020/user/zouzhanshun/spark-wordcount-1.0-SNAPSHOT.jar",
               "type":"FILE",
               "visibility":"APPLICATION",
               "size": 43004,
@@ -92,6 +138,14 @@ http://hadoop01:8088/ws/v1/cluster/apps
     "keep-containers-across-application-attempts":false
   }
 ===============================================================================
+application-id:通过http://hadoop01:8088/ws/v1/cluster/apps/new-application申请的application-id
+application-name:job name
+key:jar包名称
+type:类型的资源,选项有"ARCHIVE", "FILE", and "PATTERN"
+visibility:可见性本地化的资源，选项有"PUBLIC"、"PRIVATE"和"APPLICATION"
+size:资源的大小单位M
+===============================================================================
+
 ##单个程序的状态
 http://hadoop01:8088/ws/v1/cluster/apps/application_1530073456013_29070/state
 ##查看指定队列的所有任务：
@@ -113,6 +167,5 @@ http://jy2tehdp05:8042/ws/v1/node/apps
 http://jy2tehdp05:8042/ws/v1/node/apps/application_1530674573213_0681
 http://jy2tehdp05:8042/ws/v1/node/containers
 http://jy2tehdp05:8042/ws/v1/node/containers/container_e06_1530674573213_0681_01_000001
-
 
 

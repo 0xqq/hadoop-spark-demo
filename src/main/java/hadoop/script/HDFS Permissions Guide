@@ -7,8 +7,8 @@ useradd zouzhanshun
 passwd zouzhanshun
 --创建 zouzhanshun 用户组(可以不用创建，创建用户的时候已经创建)
 groupadd  zouzhanshun
---将用户 zouzhanshun 加入到 zouzhanshun 组
-gpasswd -a zouzhanshun zouzhanshun
+--将用户 zouzhanshun 加入到 zouzhanshun1 组
+gpasswd -a zouzhanshun zouzhanshun1
 
 linux 操作完毕
 
@@ -25,3 +25,22 @@ hdfs dfs -chmod o-r /user/zouzhanshun
 --应用到该目录的子目录和文件
 hdfs dfs -chmod -R u+r /user/zouzhanshun
 
+
+永久性删除用户账号
+userdel peter
+groupdel peter
+usermod –G peter peter   （强制删除该用户的主目录和主目录下的所有文件和子目录）
+
+#查看当前登陆用户所在的组
+groups
+#查看testnewuser 所在的组
+groups testnewuser
+#查看所有组
+cat /etc/group
+
+##更改newname的gid（即群组）为newgroup群组
+usermod -g newgroup newname
+
+1. 从wheel组中删除 test用户
+
+gpasswd wheel -d test

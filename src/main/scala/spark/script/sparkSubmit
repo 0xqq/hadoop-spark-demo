@@ -53,3 +53,18 @@ spark-submit --class org.apache.spark.examples.SparkPi \
     --queue thequeue \
     /opt/cloudera/parcels/CDH-5.9.3-1.cdh5.9.3.p0.4/lib/spark/examples/lib/spark-examples-1.6.0-cdh5.9.3-hadoop2.6.0-cdh5.9.3.jar \
     10
+
+##后台提交
+nohup \
+/opt/apps/cloudera/parcels/SPARK2-2.2.0.cloudera2-1.cdh5.12.0.p0.232957/lib/spark2/bin/spark-submit \
+--class org.apache.spark.examples.SparkPi \
+--num-executors 1 \
+--driver-memory 1g \
+--executor-memory 1g \
+--executor-cores 1 \
+--master yarn \
+--deploy-mode cluster \
+--supervise \
+hdfs://nameservice1:8020/user/zouzhanshun/application/spark-examples-1.6.0-cdh5.9.3-hadoop2.6.0-cdh5.9.3.jar \
+99 \
+> a.log 2>&1 &

@@ -53,7 +53,7 @@
         <druid.version>1.1.9</druid.version>
 
         <!-- Hadoop eco cdh version -->
-        <cdh.version>5.7.0</cdh.version>
+        <cdh.version>5.9.3</cdh.version>
         <hadoop-cdh.version>${hadoop.version}-cdh${cdh.version}</hadoop-cdh.version>
         <hbase-cdh.version>${hbase.version}-cdh${cdh.version}</hbase-cdh.version>
         <zookeeper-cdh.version>${zookeeper.version}-cdh${cdh.version}</zookeeper-cdh.version>
