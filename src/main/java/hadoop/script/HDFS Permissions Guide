@@ -44,3 +44,6 @@ usermod -g newgroup newname
 1. 从wheel组中删除 test用户
 
 gpasswd wheel -d test
+
+--查看原有存储情况
+./bin/hdfs dfsadmin -report

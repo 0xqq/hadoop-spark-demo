@@ -13,11 +13,11 @@ public class TaskSubmit4LivyMgrImpl {
         String driverMemory = "512m";
         //int driverCores = 6;
         //Executor进程的内存设置4G~8G   num-executors乘以executor-memory不要超过资源队列最大总内存的1/3~1/2
-        String executorMemory = "1000m";
+        String executorMemory = "1g";
         //core数量设置为2~4 那么num-executors乘以executor-cores不要超过队列总CPU core的1/3~1/2左右比较合适
         int executorCores = 1;
         //一般设置50~100个左右的Executor进程   num-executors * executor-cores不要超过队列总CPU core的1/3~1/2左右比较合适
-        int numExecutors = 2;
+        int numExecutors = 1;
 
         String hdfsPath = "hdfs://nameservice1:8020/user/zouzhanshun/application/spark-examples-1.6.0-cdh5.9.3-hadoop2.6.0-cdh5.9.3.jar";
         String queue = "default";//default
@@ -46,7 +46,7 @@ public class TaskSubmit4LivyMgrImpl {
         }
         sb.append("}");
 
-        String url = "http://jy2tehdp01:8998/batches";
+        String url = "http://TU01:8998/batches";
         System.out.println("============sumbit json parameters==========>" + sb.toString());
         String result = ReqEngine.sendPostReq(url, sb.toString());
         System.out.println("===============result===========>" + result);

@@ -106,16 +106,6 @@
       </properties>
     </profile>
   </profiles>
-  <repositories>
-    <repository>
-      <releases />
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>cloudera</id>
-      <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
-    </repository>
-  </repositories>
   <properties>
     <hive.current.version>${hive-cdh.version}</hive.current.version>
     <spark.current.version>${spark-cdh.version}</spark.current.version>
@@ -125,7 +115,7 @@
     <scala.version>2.11.8</scala.version>
     <zookeeper.current.version>${zookeeper-cdh.version}</zookeeper.current.version>
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-    <cdh.version>5.7.0</cdh.version>
+    <cdh.version>5.9.3</cdh.version>
     <kryo.version>4.0.2</kryo.version>
     <hive-cdh.version>${hive.version}-cdh${cdh.version}</hive-cdh.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

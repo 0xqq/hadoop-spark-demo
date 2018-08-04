@@ -27,15 +27,20 @@ public class ConsumerTest {
         props.put("auto.commit.interval.ms", "1000");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put("auto.offset.reset", "latest");// 从头开始 earliest 上线修改为从结尾开始 latest
+        props.put("auto.offset.reset", "earliest");// 从头开始 earliest 上线修改为从结尾开始 latest
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        String  topics = (String) p.get("topics");
+        String topics = (String) p.get("topics");
+        System.out.println("topics: " + topics);
         consumer.subscribe(Arrays.asList(topics));
         //消费topics
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(100);
-            for (ConsumerRecord<String, String> record : records)
+            for (ConsumerRecord<String, String> record : records) {
+                if(record.offset()==10){
+                    System.exit(0);
+                }
                 System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+            }
         }
     }
 }

@@ -2,6 +2,19 @@
 grep -r 'http://repo.typesafe.com/typesafe/ivy-releases' * | head -10
 grep -r 'https://repo1.maven.org' * | head -10
 
-
+##在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面
 vim
-:r [filename]	在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面
+:r [filename]
+
+##linux 查看运行进程所在目录
+##获取PID
+ps -ef | grep Java
+##根绝PID得到绝对路径
+ll /proc/PID | grep cwd 如:ll /proc/4932 | grep cwd
+
+
+linux如何查看端口被哪个进程占用？
+
+lsof -i:端口号
+
+21936

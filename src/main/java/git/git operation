@@ -1,0 +1,11 @@
+【git】
+克隆分支
+git clone http://172.16.101.32/BDC/BDC-ServiceMonitor/BDC-SM-Metrics-Realtime.git
+进入指定目录
+cd BDC-SM-Metrics-Realtime
+查看分支
+git branch -a
+检出指定分支
+ git checkout develop
+查看项目分支
+ git branch -a

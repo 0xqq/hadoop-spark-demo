@@ -1,0 +1,2 @@
+--产看topic
+./kafka-topics.sh --zookeeper dbus-n1:2181,dbus-n2:2181,dbus-n3:2181 --describe

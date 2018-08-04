@@ -9,13 +9,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <repositories>
-        <!--
         <repository>
             <id>pt</id>
             <name>pt</name>
             <url>http://172.18.100.230:8080/nexus-2.5.1/content/groups/public</url>
         </repository>
-        -->
+        <!--
         <repository>
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
@@ -26,6 +25,21 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        -->
+        <!--
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+        -->
     </repositories>
 
     <properties>
@@ -93,6 +107,16 @@
             <artifactId>kafka-streams</artifactId>
             <version>${kafka.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.12</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>1.1.0.RELEASE</version>
+        </dependency>
         <!--kafka 0.8版本
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -100,7 +124,6 @@
             <version>2.1.0</version>
         </dependency>
         -->
-
         <!--kafka 0.10版本-->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -141,12 +164,12 @@
             <version>${spark.version}</version>
         </dependency>
         <!--
-        -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_2.11</artifactId>
             <version>${spark.version}</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
@@ -174,6 +197,7 @@
         -->
 
         <!--
+        -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.11</artifactId>
@@ -184,7 +208,6 @@
             <artifactId>spark-graphx_2.11</artifactId>
             <version>${spark.version}</version>
         </dependency>
-        -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-yarn_2.11</artifactId>
@@ -257,24 +280,30 @@
             <artifactId>scalikejdbc-config_2.11</artifactId>
             <version>2.5.0</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.cassandraunit</groupId>
-            <artifactId>cassandra-unit</artifactId>
-            <version>3.3.0.2</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>net.jpountz.lz4</groupId>
-                    <artifactId>lz4</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
--->
+        <!--
+                <dependency>
+                    <groupId>org.cassandraunit</groupId>
+                    <artifactId>cassandra-unit</artifactId>
+                    <version>3.3.0.2</version>
+                    <scope>test</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>net.jpountz.lz4</groupId>
+                            <artifactId>lz4</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>1.1.0.RELEASE</version>
         </dependency>
     </dependencies>
 

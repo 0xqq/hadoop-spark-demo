@@ -29,6 +29,11 @@ public class Test {
 
 
     public static void main(String[] args) {
+
+
+
+
+
         int[] arrayRefVar = {1, 2, 8, 4, 5, 6, 7};
         int i = binarySearch(arrayRefVar, 8);
         System.out.println("i: " + i);

@@ -65,6 +65,7 @@ nohup \
 --master yarn \
 --deploy-mode cluster \
 --supervise \
+--queue spark \
 hdfs://nameservice1:8020/user/zouzhanshun/application/spark-examples-1.6.0-cdh5.9.3-hadoop2.6.0-cdh5.9.3.jar \
 99 \
 > a.log 2>&1 &
