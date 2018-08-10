@@ -1,0 +1,11 @@
+授权test用户拥有testDB数据库的所有权限（某个数据库的所有权限）：
+mysql>grant all privileges on testDB.* to test@localhost identified by '1234';
+
+如果想指定部分权限给一用户，可以这样来写:
+grant select,update on testDB.* to test@localhost identified by '1234';
+
+授权test用户拥有所有数据库的某些权限： 　
+mysql>grant select,delete,update,create,drop on *.* to test@"%" identified by "1234";
+
+授权root用户可以在所有的主机上登录密码为mysql
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mysql' WITH GRANT OPTION;

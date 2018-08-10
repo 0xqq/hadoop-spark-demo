@@ -6,6 +6,6 @@ cd BDC-SM-Metrics-Realtime
 查看分支
 git branch -a
 检出指定分支
- git checkout develop
+git checkout develop
 查看项目分支
  git branch -a
