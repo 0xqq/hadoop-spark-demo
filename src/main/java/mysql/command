@@ -8,4 +8,7 @@ grant select,update on testDB.* to test@localhost identified by '1234';
 mysql>grant select,delete,update,create,drop on *.* to test@"%" identified by "1234";
 
 授权root用户可以在所有的主机上登录密码为mysql
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mysql' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'playdb'@'%' IDENTIFIED BY 'playdb' WITH GRANT OPTION;
+
+刷新权限信息
+flush privileges;
