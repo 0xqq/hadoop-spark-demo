@@ -12,3 +12,5 @@ GRANT ALL PRIVILEGES ON *.* TO 'playdb'@'%' IDENTIFIED BY 'playdb' WITH GRANT OP
 
 刷新权限信息
 flush privileges;
+
+CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
