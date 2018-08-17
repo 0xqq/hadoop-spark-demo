@@ -17,4 +17,9 @@ linux如何查看端口被哪个进程占用？
 
 lsof -i:端口号
 
-21936
+ps -ef | grep pid 可以查看启动位置
+ll /proc/PID 也可以查看启动位置
+
+jps -ml
+main函数
+l list列表
