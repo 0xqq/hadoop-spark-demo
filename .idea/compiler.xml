@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hadoop-spark-demo" />
         <module name="Hadoop_Spark_Demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="hadoop-spark-demo" target="1.8" />
       <module name="Hadoop_Spark_Demo" target="1.8" />
       <module name="kafkaDemo" target="1.8" />
     </bytecodeTargetLevel>
