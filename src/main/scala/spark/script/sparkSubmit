@@ -71,8 +71,6 @@ hdfs://nameservice1:8020/user/zouzhanshun/application/spark-examples-1.6.0-cdh5.
 > a.log 2>&1 &
 
 
-
-
 hadoop jar /opt/apps/cloudera/parcels/CDH-5.9.3-1.cdh5.9.3.p0.4/jars/hadoop-mapreduce-examples-2.6.0-cdh5.9.3.jar \
 org.apache.hadoop.examples.WordCount \
 /user/zouzhanshun/input \

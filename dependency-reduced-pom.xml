@@ -106,6 +106,13 @@
       </properties>
     </profile>
   </profiles>
+  <repositories>
+    <repository>
+      <id>pt</id>
+      <name>pt</name>
+      <url>http://172.18.100.230:8080/nexus-2.5.1/content/groups/public</url>
+    </repository>
+  </repositories>
   <properties>
     <hive.current.version>${hive-cdh.version}</hive.current.version>
     <spark.current.version>${spark-cdh.version}</spark.current.version>
