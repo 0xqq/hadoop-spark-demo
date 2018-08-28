@@ -1,5 +1,0 @@
---scala play框架不能调试  
-Build项目以后  
-Terminal输入  
-sbt run --jvm-debug 9999
-![avatar](../image/1.png)

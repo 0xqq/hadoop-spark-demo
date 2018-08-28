@@ -2,3 +2,9 @@
 Build项目以后
 Terminal输入
 sbt run --jvm-debug 9999
+
+run/Debug Configurations + Remote
+Setting Socket
+Host localhost
+Port 9999
+ok
