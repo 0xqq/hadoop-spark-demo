@@ -95,23 +95,6 @@
             <artifactId>caffeine</artifactId>
             <version>2.6.2</version>
         </dependency>
-        <!--kafka
-        -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>${kafka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-streams</artifactId>
-            <version>${kafka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
-            <version>${kafka.version}</version>
-        </dependency>
         <!--kafka 0.8版本
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -124,7 +107,6 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
             <version>${spark.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <!-- Hadoop & HBase -->
         <dependency>
@@ -307,6 +289,13 @@
             <artifactId>spring-kafka</artifactId>
             <version>1.1.0.RELEASE</version>
         </dependency>
+        <!--注解日志，get、get方法等-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -360,6 +349,7 @@
                     <encoding>UTF8</encoding>
                 </configuration>
             </plugin>
+            <!--开发环境和部署环境一致是可以不依赖本地的jar。当需要依赖jar包时可以提交时加参数指定
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -395,6 +385,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
     </build>
     <profiles>

@@ -21,9 +21,9 @@ object WordCount {
     val osName = props.getProperty("os.name");
     //设置本地的hadoop环境变量
     if ("Windows 7".equals(osName)) {
-      System.out.println("------------------------------------------------------")
-      System.setProperty("HADOOP.HOME.DIR", "D:\\hadoop-2.6.0-cdh5.9.0")
-      System.setProperty("HADOOP_USER_NAME", "dell")
+      System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.0-cdh5.9.0")
+      //用户欺骗
+      System.setProperty("HADOOP_USER_NAME", "hdfs")
       conf.setMaster("local[*]")
     }
 

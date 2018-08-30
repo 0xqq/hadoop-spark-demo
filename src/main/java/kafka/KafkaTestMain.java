@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class KafkaTestMain {
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         ConsoleApi consoleApi = new ConsoleApi();
 
         System.out.println("=====================所有topic===========================");
@@ -50,5 +50,5 @@ public class KafkaTestMain {
             String str = it.next();
             System.out.println(str);
         }
-    }
+    }*/
 }

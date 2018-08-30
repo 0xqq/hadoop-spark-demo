@@ -1,17 +1,6 @@
 package kafka;
 
-import kafka.admin.AdminClient;
-import kafka.admin.AdminUtils;
-import kafka.admin.RackAwareMode;
-import kafka.cluster.Broker;
-import kafka.cluster.Cluster;
-import kafka.consumer.ConsumerConfig;
-import kafka.consumer.KafkaStream;
-import kafka.coordinator.group.GroupOverview;
-import kafka.javaapi.consumer.ConsumerConnector;
-import kafka.javaapi.consumer.ZookeeperConsumerConnector;
-import kafka.server.ConfigType;
-import kafka.utils.ZkUtils;
+import org.apache.kafka.common.Cluster;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.security.JaasUtils;
 import org.apache.zookeeper.KeeperException;
@@ -25,14 +14,14 @@ import java.io.IOException;
 import java.util.*;
 
 public class ConsoleApi {
-    @Autowired
+    /*@Autowired
     private KafkaConsumerConfig consumerConfig;
     private ZkUtils zkUtils = null;
     private ZooKeeper zooKeeper = null;
 
-    /**
+    *//**
      * -获取集群信息（与getAllBrokersInCluster（）只是返回类型不一致）
-     */
+     *//*
     public Cluster getCluster() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return zkUtils.getCluster();
@@ -70,43 +59,43 @@ public class ConsoleApi {
         return deleteUselessConsumer("-1", group);
     }
 
-    /**
+    *//**
      * -删除topic路径
      *
      * @return
-     */
+     *//*
     public String deleteTopicsPath() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return zkUtils.DeleteTopicsPath();
     }
 
-    /**
+    *//**
      * -根据brokerId获取broker的信息
      *
      * @param brokerId
-     */
+     *//*
     public Broker getBrokerInfo(int brokerId) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return zkUtils.getBrokerInfo(brokerId).get();
     }
 
-    /**
+    *//**
      * -获取消费者的路径
      *
      * @return
-     */
+     *//*
 
     public String ConsumersPath() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return zkUtils.ConsumersPath();
     }
 
-    /**
+    *//**
      * 删除多个topic
      *
      * @param topicNames
      * @return
-     */
+     *//*
     public String[] deleteTopics(final String... topicNames) {
         if (topicNames == null || topicNames.length == 0) return new String[0];
         java.util.Set<String> deleted = new LinkedHashSet<String>();
@@ -119,81 +108,81 @@ public class ConsoleApi {
         return deleted.toArray(new String[deleted.size()]);
     }
 
-    /**
+    *//**
      * 获取所有的TopicList
      *
      * @return
-     */
+     *//*
     public List<String> getTopicList() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         List<String> allTopicList = JavaConversions.seqAsJavaList(zkUtils.getAllTopics());
         return allTopicList;
     }
 
-    /**
+    *//**
      * ~获取某个分组下的所有消费者
      *
      * @param groupName
      * @return
-     */
+     *//*
     public List<String> getConsumersInGroup(String groupName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         List<String> allTopicList = JavaConversions.seqAsJavaList(zkUtils.getConsumersInGroup(groupName));
         return allTopicList;
     }
 
-    /**
+    *//**
      * 判断某个topic是否存在
      *
      * @param topicName
      * @return
-     */
+     *//*
     public boolean topicExists(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         boolean exists = AdminUtils.topicExists(zkUtils, topicName);
         return exists;
     }
 
-    /**
+    *//**
      * ~
      *
      * @param groupName
      * @return
-     */
+     *//*
     public boolean isConsumerGroupActive(String groupName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         boolean exists = AdminUtils.isConsumerGroupActive(zkUtils, groupName);
         return exists;
     }
 
-    /**
+    *//**
      * 获取所有消费者组
      *
      * @return
-     */
+     *//*
     public List<String> getConsumerGroups() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         List<String> set = JavaConversions.seqAsJavaList(zkUtils.getConsumerGroups());
         return set;
     }
 
-    /**
+    *//**
      * 根据消费者的名称获取topic
      *
      * @param groupName
      * @return
-     */
+     *//*
     public List<String> getTopicsByConsumerGroup(String groupName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         List<String> set2 = JavaConversions.seqAsJavaList(zkUtils.getTopicsByConsumerGroup(groupName));
         return set2;
     }
 
-    /**
+    *//**
      * 获取排序的BrokerList
      *
      * @return
-     */
+     *//*
     public List<Object> getSortedBrokerList() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         List<Object> set2 = JavaConversions.seqAsJavaList(zkUtils.getSortedBrokerList());
@@ -206,36 +195,36 @@ public class ConsoleApi {
         return set2;
     }
 
-    /**
+    *//**
      * 获取消费某个topic发送消息的消费组
      *
      * @param topicName
      * @return
-     */
+     *//*
     public Set<String> getAllConsumerGroupsForTopic(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         Set<String> stringSeq = zkUtils.getAllConsumerGroupsForTopic(topicName);
         return stringSeq;
     }
 
-    /**
+    *//**
      * 获取删除主题的路径
      *
      * @param topicName
      * @return
-     */
+     *//*
     public String getDeleteTopicPath(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         String stringSeq = zkUtils.getDeleteTopicPath(topicName);
         return stringSeq;
     }
 
-    /**
+    *//**
      * 获取topic路径
      *
      * @param topicName
      * @return
-     */
+     *//*
     public String getTopicPath(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         String stringSeq = zkUtils.getTopicPath(topicName);
@@ -254,11 +243,11 @@ public class ConsoleApi {
         return false;
     }
 
-    /**
+    *//**
      * 删除topic信息（前提是server.properties中要配置delete.topic.enable=true）
      *
      * @param topicName
-     */
+     *//*
     public void deleteTopic(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         // 删除topic 't1'
@@ -266,12 +255,12 @@ public class ConsoleApi {
         System.out.println("删除成功！");
     }
 
-    /**
+    *//**
      * 删除topic的某个分区
      *
      * @param brokerId
      * @param topicName
-     */
+     *//*
     public void deletePartition(int brokerId, String topicName) {
         // 删除topic 't1'
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
@@ -280,11 +269,11 @@ public class ConsoleApi {
     }
 
 
-    /**
+    *//**
      * 改变topic的配置
      *
      * @param topicName
-     */
+     *//*
     public void updateTopic(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
 
@@ -300,27 +289,27 @@ public class ConsoleApi {
         zkUtils.close();
     }
 
-    /**
+    *//**
      * 获取所有topic的配置信息
-     */
+     *//*
     public Map<String, Properties> fetchAllTopicConfigs() {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return AdminUtils.fetchAllTopicConfigs(zkUtils);
     }
 
-    /**
+    *//**
      * 获取所有topic或者client的信息()type为：ConfigType.Topic()/ConfigType.Client()
-     */
+     *//*
     public Map<String, Properties> fetchAllEntityConfigs(String type) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
         return AdminUtils.fetchAllEntityConfigs(zkUtils, type);
     }
 
-    /**
+    *//**
      * 获取指定topic的配置信息
      *
      * @param topicName
-     */
+     *//*
     public Properties fetchEntityConfig(String topicName) {
         zkUtils = ZkUtils.apply(consumerConfig.getZookeeperConn(), 30000, 30000, JaasUtils.isZkSecurityEnabled());
 
@@ -385,13 +374,13 @@ public class ConsoleApi {
         return new ArrayList<String>(Collections.singleton(path));
     }
 
-    /**
+    *//**
      * get all subscribing consumer group names for a given topic
      *
      * @param brokerListUrl localhost:9092 for instance
      * @param topic         topic name
      * @return
-     */
+     *//*
     public static java.util.Set<String> getAllGroupsForTopic(String brokerListUrl, String topic) {
         AdminClient client = AdminClient.createSimplePlaintext(brokerListUrl);
         try {
@@ -406,6 +395,6 @@ public class ConsoleApi {
         } finally {
             client.close();
         }
-    }
+    }*/
 
 }
