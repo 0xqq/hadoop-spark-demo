@@ -189,6 +189,7 @@
     <orderEntry type="library" name="Maven: org.apache.parquet:parquet-hadoop:1.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.parquet:parquet-format:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.parquet:parquet-jackson:1.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-streaming_2.11:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-streaming-flume_2.11:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-streaming-flume-sink_2.11:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.flume:flume-ng-core:1.6.0" level="project" />
@@ -196,7 +197,6 @@
     <orderEntry type="library" name="Maven: org.apache.mina:mina-core:2.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.flume:flume-ng-sdk:1.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-mllib_2.11:2.2.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.spark:spark-streaming_2.11:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-mllib-local_2.11:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.scalanlp:breeze_2.11:0.13.1" level="project" />
     <orderEntry type="library" name="Maven: org.scalanlp:breeze-macros_2.11:0.13.1" level="project" />

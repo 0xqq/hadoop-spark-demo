@@ -74,9 +74,26 @@ hdfs://nameservice1:8020/user/zouzhanshun/application/spark-examples-1.6.0-cdh5.
 hadoop jar /opt/apps/cloudera/parcels/CDH-5.9.3-1.cdh5.9.3.p0.4/jars/hadoop-mapreduce-examples-2.6.0-cdh5.9.3.jar \
 org.apache.hadoop.examples.WordCount \
 /user/zouzhanshun/input \
-/user/zouzhanshun/output121212
+/user/zouzhanshun/output1233331212
 
 hadoop jar /opt/apps/cloudera/parcels/CDH-5.9.3-1.cdh5.9.3.p0.4/jars/hadoop-mapreduce-examples-2.6.0-cdh5.9.3.jar \
 wordcount \
 /user/zouzhanshun/input \
-/user/zouzhanshun/output1111111121212
+/user/zouzhanshun/output1121111331121212
+
+hadoop jar /home/zouzhanshun/hadoop-spark-demo-1.0-SNAPSHOT.jar \
+spark.WordCount \
+/user/zouzhanshun/input \
+/user/zouzhanshun/output1121111331121212
+
+/opt/apps/cloudera/parcels/SPARK2-2.2.0.cloudera2-1.cdh5.12.0.p0.232957/lib/spark2/bin/spark-submit \
+--class spark.WordCount \
+--num-executors 1 \
+--driver-memory 1g \
+--executor-memory 1g \
+--executor-cores 1 \
+--master yarn \
+--deploy-mode cluster \
+--supervise \
+--queue spark \
+hdfs://nameservice1:8020/user/zouzhanshun/application/hadoop-spark-demo-1.0-SNAPSHOT.jar
