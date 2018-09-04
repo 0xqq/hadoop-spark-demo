@@ -18,9 +18,8 @@ public class HBaseConnectionUtils {
         String osName = props.getProperty("os.name");
         //设置本地的hadoop环境变量
         if ("Windows 7".equals(osName)) {
-            System.setProperty("HADOOP.HOME.DIR", "D:\\hadoop-2.6.0-cdh5.9.0");
-            System.setProperty("HADOOP_USER_NAME", "dell");
-            System.out.println("====================>已设置hadoopdir");
+            System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.0-cdh5.9.0");
+            System.setProperty("HADOOP_USER_NAME", "hdfs");
         }
         Connection connection = ConnectionFactory.createConnection(getConfiguration());
         return connection;
