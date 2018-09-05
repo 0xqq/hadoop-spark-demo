@@ -1,20 +1,104 @@
-通过list可以列出所有已创建的表
->list
-TABLE
-HBase_Indexer_Test
-HBase_Indexer_Test_New
-cookiekeyhbase
-demo
-t_tool_health_score_final
-userview
-6 row(s) in 0.0090 second
+表的管理
+--查看有哪些表
+list
 
-查看表的结构
-describe
->desc 'HBase_Indexer_Test'
-Table HBase_Indexer_Test is ENABLED
-HBase_Indexer_Test
-COLUMN FAMILIES DESCRIPTION
-{NAME => 'cf1', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRE
-SSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '1'}
-1 row(s) in 0.1310 seconds
+--创建表
+create 't1',{NAME => 'f1', VERSIONS => 2},{NAME => 'f2', VERSIONS => 2}
+
+--删除表
+首先disable，然后drop
+例如：删除表t1
+disable 't1'
+drop 't1'
+
+--查看表的结构
+describe 't1'
+
+--修改表结构
+修改表结构必须先disable
+disable 'test1'
+alter 'test1',{NAME=>'body',TTL=>'15552000'},{NAME=>'meta', TTL=>'15552000'}
+enable 'test1'
+
+权限管理
+
+--分配权限
+# 权限用五个字母表示： "RWXCA".
+# READ('R'), WRITE('W'), EXEC('X'), CREATE('C'), ADMIN('A')
+# 例如，给用户‘test'分配对表t1有读写的权限，
+grant 'test','RW','t1'
+
+--查看权限
+user_permission 't1'
+
+-收回权限
+收回test用户在表t1上的权限
+revoke 'test','t1'
+
+表数据的增删改查
+--添加数据
+put 't1','rowkey001','f1:col1','value01'
+
+查询数据
+--查询某行记录
+get 't1','rowkey001', 'f1:col1'
+
+--扫描表
+另外，还可以添加STARTROW、TIMERANGE和FITLER等高级功能
+# 例如：扫描表t1的前5条数据
+scan 't1',{LIMIT=>5}
+
+--查询表中的数据行数
+# INTERVAL设置多少行显示一次及对应的rowkey，默认1000；CACHE每次去取的缓存区大小，默认是10，调整该参数可提高查询速度
+# 例如，查询表t1中的行数，每100条显示一次，缓存区为500
+count 't1', {INTERVAL => 100, CACHE => 500}
+
+--删除数据
+删除表t1，rowkey001中的f1:col1的数据
+delete 't1','rowkey001','f1:col1'
+
+--删除行
+删除表t1，rowk001的数据
+truncate 't1'
+
+Region管理
+--移动region
+# encodeRegionName指的regioName后面的编码，ServerName指的是master-status的Region Servers列表
+move '4343995a58be8e5bbc739af1e91cd72d', 'db-41.xxx.xxx.org,60020,1390274516739'
+
+--开启/关闭region
+balance_switch
+
+--手动split
+# 语法：split 'regionName', 'splitKey'
+
+--手动触发major compaction
+#语法：
+#Compact all regions in a table:
+#hbase> major_compact 't1'
+#Compact an entire region:
+#hbase> major_compact 'r1'
+#Compact a single column family within a region:
+#hbase> major_compact 'r1', 'c1'
+#Compact a single column family within a table:
+#hbase> major_compact 't1', 'c1'
+
+配置管理及节点重启
+--修改hdfs配置
+hdfs配置位置：/etc/hadoop/conf
+# 同步hdfs配置
+cat /home/hadoop/slaves|xargs -i -t scp /etc/hadoop/conf/hdfs-site.xml hadoop@{}:/etc/hadoop/conf/hdfs-site.xml
+#关闭：
+cat /home/hadoop/slaves|xargs -i -t ssh hadoop@{} "sudo /home/hadoop/cdh4/hadoop-2.0.0-cdh4.2.1/sbin/hadoop-daemon.sh --config /etc/hadoop/conf stop datanode"
+#启动：
+cat /home/hadoop/slaves|xargs -i -t ssh hadoop@{} "sudo /home/hadoop/cdh4/hadoop-2.0.0-cdh4.2.1/sbin/hadoop-daemon.sh --config /etc/hadoop/conf start datanode"
+
+修改hbase配置
+--hbase配置位置：
+# 同步hbase配置
+cat /home/hadoop/hbase/conf/regionservers|xargs -i -t scp /home/hadoop/hbase/conf/hbase-site.xml hadoop@{}:/home/hadoop/hbase/conf/hbase-site.xml
+
+# graceful重启
+cd ~/hbase
+bin/graceful_stop.sh --restart --reload --debug inspurXXX.xxx.xxx.org
+
