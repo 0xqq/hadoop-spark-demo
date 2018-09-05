@@ -1,0 +1,6 @@
+driverClass=com.mysql.cj.jdbc.Driver
+jdbcUrl=jdbc:mysql://172.18.101.118:3306/service_monitor?characterEncoding=utf-8
+user=service_monitor
+password=9RqG^6#N@ltY8xRz
+maxPoolSize=20
+minPoolSize=5
