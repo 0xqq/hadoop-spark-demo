@@ -1,7 +1,6 @@
 package base;
 
 import lombok.extern.slf4j.Slf4j;
-import mr.DataNoHeavy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,7 @@ public class SystemBase {
 
     public static void setOS() {
 
-        Logger logger = LoggerFactory.getLogger(DataNoHeavy.class);
+        Logger logger = LoggerFactory.getLogger(SystemBase.class);
         Properties props = System.getProperties();
         //操作系统名称
         String osName = props.getProperty("os.name");

@@ -10,7 +10,7 @@ import org.apache.hadoop.io.IOUtils;
 import java.io.*;
 import java.net.URI;
 
-public class up2hdfs {
+public class HdfsOptions {
 
 
     private static String HDFSUri = "";

@@ -1,4 +1,4 @@
-package base;
+package designMode.singleton;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
